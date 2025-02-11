@@ -15,14 +15,7 @@ export async function loginUser(values:any) {
         
         const data = await res.json()
         if(data.token){
-            (await cookies()).set('token',data.token,{
-                secure:false,
-                sameSite: 'none',
-                path:'/',
-                expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-                httpOnly: true,
-                domain: "localhost",
-            })
+            (await cookies()).set('token',data.token)
         }
         return data
     } catch (error) {
