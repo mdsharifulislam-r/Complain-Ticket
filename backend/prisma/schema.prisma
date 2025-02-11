@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  role     Role    @default(CUSTOMER)
+ 
+}
+
+model Comment {
+  reply_id        Int       @id @default(autoincrement())
+  content   String  @db.LongText 
+  createdAt DateTime  @default(now())
+  admin_id  Int
+  ticket_id Int
+}
+
+model Ticket {
+  ticket_id          Int       @id @default(autoincrement())
+  subject     String
+  description String  @db.LongText 
+  status      Status    @default(OPEN)
+  createdAt   DateTime  @default(now())
+  user_id    Int
+  
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+enum Status {
+  OPEN
+  RESOLVED
+  CLOSED
+}
